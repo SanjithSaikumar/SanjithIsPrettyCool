@@ -48,11 +48,11 @@ public class TeleOp1 extends LinearOpMode {
         elevatorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elevatorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        elevatorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        elevatorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//        elevatorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        elevatorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elevatorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        elevatorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         HangL = hardwareMap.get(DcMotor.class, "HangL");
         HangR = hardwareMap.get(DcMotor.class, "HangR");
@@ -90,19 +90,19 @@ public class TeleOp1 extends LinearOpMode {
 
 
 
-            while (opModeIsActive()) {
-                double max;
+        while (opModeIsActive()) {
+            double max;
 
 
-                double axial = -gamepad1.left_stick_y;
-                double lateral = gamepad1.left_stick_x;
-                double yaw = gamepad1.right_stick_x;
-                double slidePower = -gamepad2.left_stick_y;
+            double axial = -gamepad1.left_stick_y;
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
+            // double slidePower = -gamepad2.left_stick_y;
 
-                double leftFrontPower = axial + lateral + yaw;
-                double rightFrontPower = axial - lateral - yaw;
-                double leftBackPower = axial - lateral + yaw;
-                double rightBackPower = axial + lateral - yaw;
+            double leftFrontPower = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
 
 
 //                boolean clawToggle = false;
@@ -123,7 +123,7 @@ public class TeleOp1 extends LinearOpMode {
 //                }
 
 
-                //    intake_claw.getPosition();
+            //    intake_claw.getPosition();
 //                if (gamepad2.b &&   intake_claw.getPosition() == 0.4) {  //claw open close test
 //                    intake_claw.setPosition(1);
 //                    outtake_claw.setPosition(0);
@@ -132,85 +132,113 @@ public class TeleOp1 extends LinearOpMode {
 //                if  (gamepad2.b &&   intake_claw.getPosition() == 1) {  //claw open close test
 //                    intake_claw.setPosition(0.4);
 //                    outtake_claw.setPosition(1);
-                elevatorL.setPower(slidePower * -1);
-                elevatorR.setPower(slidePower);
+         /*   elevatorL.setPower(slidePower * -1);
+            elevatorR.setPower(slidePower);*/
 
-                //claw open close
-                if (gamepad2.b) {
-                    intake_claw.setPosition(0.4);
-                    outtake_claw.setPosition(0);
-                } else if (gamepad2.right_bumper) {
-                    intake_extension.setPosition(0.4);
-                    intake_wrist.setPosition(0.8);
-                    outtake_claw.setPosition(0);
+            //claw open close
+            if (gamepad2.b) {
+                intake_claw.setPosition(0.4);
+            } else if (gamepad2.right_bumper) {
+                intake_extension.setPosition(0.4);
+                intake_wrist.setPosition(0.8);
+                outtake_claw.setPosition(0);
 
-                } else if (gamepad2.left_bumper) {
-                    intake_extension.setPosition(0);
-                    intake_wrist.setPosition(0.4);
-                    outtake_claw.setPosition(0);
+            } else if (gamepad2.left_bumper) {
+                intake_extension.setPosition(0);
+                intake_wrist.setPosition(0.4);
+                outtake_claw.setPosition(0);
 
-                } else {
-                    intake_claw.setPosition(1);
-                    outtake_claw.setPosition(0.4);
-                }
-
-                if (gamepad2.x) {
-                    intake_wrist.setPosition(0.2);
-                    outtake_wrist.setPosition(0.5);
-
-                }
-
-                if (gamepad1.dpad_up) {  //hang
-                    HangL.setPower(-0.7);
-                    HangR.setPower(-0.7);
-                } else if (gamepad1.dpad_down) {
-                    HangL.setPower(0.7);
-                    HangR.setPower(0.7);
-                } else {
-                    HangL.setPower(0);
-                    HangR.setPower(0);
-                }
-
-//                if (gamepad2.dpad_up) {  //bucket height
-//                    elevatorR.setTargetPosition(-100);
-//                    elevatorL.setTargetPosition(-100);
-//                    elevatorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    elevatorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    elevatorR.setPower(0.8);
-//                    elevatorL.setPower(0.8);
-//                    outtake_armR.setPosition(0);
-//                }
-
-                if (gamepad2.y) {  // transition
-                    outtake_armR.setPosition(1);
-                    outtake_wrist.setPosition(0.9);
-                }
-                if (gamepad2.dpad_down) {  // specimen pickup
-                    outtake_armR.setPosition(0);
-                    outtake_wrist.setPosition(0);
-                }
-
-                if (gamepad2.dpad_up) {  // sample
-                    outtake_armR.setPosition(0.2);
-                    outtake_wrist.setPosition(0);
-                }
+            } else {
+                intake_claw.setPosition(1);
+                outtake_claw.setPosition(0.4);
+            }
 
 
 
-                if (gamepad2.dpad_left) {
-                    intake_rotation.setPosition(0.2);
-                    outtake_rotation.setPosition(0);
-                }
+            if (gamepad1.dpad_up) {  //hang
+                HangL.setPower(-0.7);
+                HangR.setPower(-0.7);
+            } else if (gamepad1.dpad_down) {
+                HangL.setPower(0.7);
+                HangR.setPower(0.7);
+            } else {
+                HangL.setPower(0);
+                HangR.setPower(0);
+            }
 
-                if (gamepad2.dpad_right){
-                    intake_rotation.setPosition(0.8);
-                    outtake_rotation.setPosition(0.4);
-                }
+            if (gamepad2.dpad_up) {  //bucket height
+                elevatorR.setTargetPosition(2050);
+                elevatorL.setTargetPosition(-2050);
+                elevatorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setPower(-0.8);
+                elevatorL.setPower(-0.8);
+                outtake_armR.setPosition(0.2);
+                outtake_armL.setPosition(0.8);
+                outtake_wrist.setPosition(0);
+            }
 
-                if (gamepad2.a) {  // specimen pickup
-                    intake_claw.setPosition(0.4);
-                    outtake_claw.setPosition(0.4);
-                }
+            if (gamepad2.y) {  // transition
+                elevatorR.setTargetPosition(1000);
+                elevatorL.setTargetPosition(-1000);
+                elevatorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setPower(-0.8);
+                elevatorL.setPower(-0.8);
+                outtake_armR.setPosition(0);
+                outtake_armL.setPosition(1);
+                outtake_wrist.setPosition(0);
+            }
+            if (gamepad2.a) {  // specimen pickup
+                elevatorR.setTargetPosition(0);
+                elevatorL.setTargetPosition(0);
+                elevatorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setPower(-0.8);
+                elevatorL.setPower(-0.8);
+                outtake_armR.setPosition(0);
+                outtake_armL.setPosition(1);
+                outtake_wrist.setPosition(0);
+            }
+
+            if (gamepad2.dpad_down) {  //specimen pickup
+                elevatorR.setTargetPosition(0);
+                elevatorL.setTargetPosition(0);
+                elevatorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorR.setPower(-0.8);
+                elevatorL.setPower(-0.8);
+                outtake_armR.setPosition(1);
+                outtake_armL.setPosition(0);
+                outtake_wrist.setPosition(0.8);
+
+            }
+
+
+            if (gamepad2.x) {
+                intake_wrist.setPosition(0.2);
+                outtake_wrist.setPosition(0.5);
+
+            }
+
+//            if (gamepad2.dpad_up) {  // sample
+//                outtake_armR.setPosition(0.2);
+//                outtake_wrist.setPosition(0);
+//            }
+
+
+
+            if (gamepad2.dpad_left) {
+                intake_rotation.setPosition(0.2);
+                outtake_rotation.setPosition(0);
+            }
+
+            if (gamepad2.dpad_right){
+                intake_rotation.setPosition(0.8);
+                outtake_rotation.setPosition(0.4);
+            }
+
+
 
 //                if (gamepad2.a) {
 //                    elevatorR.setTargetPosition(0);
